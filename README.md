@@ -4,7 +4,7 @@
 
 ```mermaid
 flowchart TD
-    A[Input Image] --> B[Finetuned Vision Transformer] --> C[Classified Image]
+    A[Input Image] --> |Create patches of Nx224x224x3| B[Finetuned Vision Transformer] --> C[Classified Image]
 ```
 
 ## ML Model Proposal v2
