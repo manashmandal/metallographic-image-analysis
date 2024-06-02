@@ -20,6 +20,7 @@ if cpu_count() == 24:
 else:
     dataset_path = "./dataset"
 
+
 class ImageWithLabel(NamedTuple):
     image_path: str
     label_index: int
@@ -88,15 +89,15 @@ def train_test_split(split_ratio: float = 0.8) -> TrainTestSplit:
 def batch_generator_with_transform(
     data: list[ImageWithLabel],
 ) -> Generator[list[ImageWithLabel], None, None]:
-    while True:
-        for item in data:
-            yield ImageLabelTensor(
-                image_tensor=transforms(read_bmp_as_tensor(item.image_path)),
-                label_index=item.label_index,
-            )
+    for item in data:
+        yield ImageLabelTensor(
+            image_tensor=transforms(read_bmp_as_tensor(item.image_path)),
+            label_index=item.label_index,
+        )
 
 
-def collate_fn(batch: list[ImageLabelTensor]) -> dict[str, Tensor]:
+def collate_fn(batch: list[ImageWithLabel]) -> dict[str, Tensor]:
+    batch = list(batch_generator_with_transform(batch))
     images = torch.stack([item.image_tensor for item in batch])
     labels = torch.tensor([item.label_index for item in batch])
     return {"pixel_values": images, "labels": labels}
