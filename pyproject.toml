@@ -12,6 +12,9 @@ jupyter = "^1.0.0"
 notebook = "^7.2.0"
 torch = "^2.3.0"
 torchvision = "^0.18.0"
+datasets = "^2.19.1"
+transformers = "^4.41.2"
+pillow = "^10.3.0"
 
 
 [build-system]
