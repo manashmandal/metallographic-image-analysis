@@ -9,6 +9,8 @@ from preprocess import (
 from datasets import Dataset
 from itertools import islice
 from transformers import ViTForImageClassification
+from torchvision import models
+import torch
 
 model_name_or_path = "google/vit-base-patch16-224-in21k"
 
@@ -19,11 +21,11 @@ if __name__ in ("__main__", "run"):
     train_generator = batch_generator_with_transform(data=train_test.train_data[:1])
     collated = collate_fn(list(train_generator))
 
-    model = ViTForImageClassification.from_pretrained(
-        model_name_or_path,
-        num_labels=len(labels),
-        id2label=index_to_label_map,
-        label2id=label_to_index_map,
-    )
+    resnet = models.resnet18(pretrained=True)
 
-    print(model(collated["pixel_values"]), return_tensors="pt")
+    print(resnet)
+
+    # resnet.to_device("cuda")
+
+    # output = resnet(torch.rand(1, 3, 224, 224))
+    # print(output.shape)
