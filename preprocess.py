@@ -11,9 +11,14 @@ import torch
 from typing import Generator, NamedTuple
 from random import shuffle
 from datasets import Dataset
+from multiprocessing import cpu_count
 
 load_model = False
 
+if cpu_count() == 24:
+    dataset_path = "/mnt/i/amit-dataset/Microstructure Dataset (5 Classes)"
+else:
+    dataset_path = "./dataset"
 
 class ImageWithLabel(NamedTuple):
     image_path: str
@@ -51,7 +56,7 @@ if load_model:
     model_name_or_path = "google/vit-base-patch16-224-in21k"
     processor = ViTImageProcessor.from_pretrained(model_name_or_path)
 
-labels = os.listdir("./dataset")
+labels = os.listdir(dataset_path)
 label_to_dir_map = {label: [] for label in labels}
 label_to_index_map = {label: i for i, label in enumerate(labels)}
 index_to_label_map = {index: labels[index] for index in range(len(labels))}
@@ -60,7 +65,7 @@ index_to_label_map = {index: labels[index] for index in range(len(labels))}
 def get_all_images_with_labels() -> list[ImageWithLabel]:
     all_images_with_labels = []
     for label in labels:
-        label_to_dir_map[label] = list(Path(f"./dataset/{label}").rglob("*.bmp"))
+        label_to_dir_map[label] = list(Path(f"{dataset_path}/{label}").rglob("*.bmp"))
 
     for label, image_path in label_to_dir_map.items():
         for path in image_path:
