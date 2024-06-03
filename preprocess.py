@@ -47,10 +47,25 @@ def read_bmp_as_tensor(bmp_path: str) -> Tensor:
         return tensor_image
 
 
+def read_bytes_as_tensor(image_bytes: bytes) -> Tensor:
+    with Image.open(io.BytesIO(image_bytes)) as img:
+        img = img.convert("RGB")  # Ensure the image is in RGB format
+        tensor_image = ToTensor()(img)  # Convert the image to a tensor
+        return tensor_image
+
+
 transforms = v2.Compose(
     [
         v2.RandomResizedCrop(size=(224, 224), antialias=True),
         v2.RandomHorizontalFlip(p=0.5),
+        v2.ToDtype(torch.float32, scale=True),
+        v2.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ]
+)
+
+prediction_transforms = v2.Compose(
+    [
+        v2.Resize(size=(224, 224), antialias=True),
         v2.ToDtype(torch.float32, scale=True),
         v2.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ]
