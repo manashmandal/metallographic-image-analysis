@@ -75,7 +75,20 @@ if load_model:
     model_name_or_path = "google/vit-base-patch16-224-in21k"
     processor = ViTImageProcessor.from_pretrained(model_name_or_path)
 
-labels = os.listdir(dataset_path)
+# labels = os.listdir(dataset_path)
+labels = [
+    "Gr.1-DWR Rod",
+    "Gr.10-High Carbon Round Bar",
+    "Gr.11- Gray Cast Iron",
+    "Gr.2-CWR Rod",
+    "Gr.3-TMT Bar",
+    "Gr.4-Housing Pipe",
+    "Gr.5-MS Flat Bar",
+    "Gr.6-Wrench",
+    "Gr.7-Spring Steel",
+    "Gr.8-Drill Bit",
+    "Gr.9-Lathe Cutter",
+]
 label_to_dir_map = {label: [] for label in labels}
 label_to_index_map = {label: i for i, label in enumerate(labels)}
 index_to_label_map = {index: labels[index] for index in range(len(labels))}

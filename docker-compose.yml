@@ -1,0 +1,7 @@
+services:
+  st_app:
+    build: .
+    command: poetry run streamlit run st_app.py
+
+    ports:
+      - "8501:8501"
