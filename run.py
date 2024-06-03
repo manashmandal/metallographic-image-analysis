@@ -31,6 +31,8 @@ if __name__ in ("__main__", "run"):
     # train_generator = batch_generator_with_transform(data=train_test.train_data[:5])
     # collated = collate_fn(list(train_generator))
 
+    print(labels, len(labels), index_to_label_map, label_to_index_map)
+
     model = ViTForImageClassification.from_pretrained(
         model_name_or_path,
         num_labels=len(labels),
