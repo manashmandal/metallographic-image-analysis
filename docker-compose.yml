@@ -1,6 +1,6 @@
 services:
   st_app:
-    build: .
+    image: jackspicer/metallographic-image-analysis:latest
     command: poetry run streamlit run st_app.py
 
     ports:
